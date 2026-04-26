@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL! ;
 
 interface DashboardContextType {
   summary: {
