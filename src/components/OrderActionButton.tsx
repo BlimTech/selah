@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { updateOrderStatus } from '@/app/actions';
+
 import { useDashboard } from '@/components/DashboardContext';
 
 interface OrderActionButtonProps {
@@ -43,10 +43,21 @@ export default function OrderActionButton({ orderId, currentStatus, quantity }: 
 
     setIsPending(true);
     try {
-      await updateOrderStatus(orderId, currentStatus);
+      const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+      const newStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
+      
+      const res = await fetch(`${BASE_URL}/api/dashboard/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      if (!res.ok) throw new Error('Failed to update');
+      
       await refresh(); // Instant global update
     } catch (err) {
       console.error(err);
+      alert('Failed to update status');
     } finally {
       setIsPending(false);
     }
