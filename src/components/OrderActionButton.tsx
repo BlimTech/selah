@@ -43,10 +43,8 @@ export default function OrderActionButton({ orderId, currentStatus, quantity }: 
 
     setIsPending(true);
     try {
-      const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
       const newStatus = currentStatus === 'paid' ? 'unpaid' : 'paid';
-      
-      const res = await fetch(`${BASE_URL}/api/dashboard/orders/${orderId}/status`, {
+      const res = await fetch(`/api/dashboard/orders/${orderId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })

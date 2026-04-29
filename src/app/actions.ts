@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { supabase } from '@/lib/supabase';
+import { supabaseServer as supabase } from '@/lib/supabase/server';
 
 export async function confirmOrder(orderId: string, quantity: number) {
   // Use the MVP dummy price logic defined in backend

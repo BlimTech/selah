@@ -2,7 +2,6 @@
 
 import { useDashboard } from './DashboardContext';
 import { useState, useEffect } from 'react';
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export default function SimpleModal() {
   const { activeModal, closeModal, refresh, customers, defaultPrice } = useDashboard();
@@ -57,35 +56,35 @@ export default function SimpleModal() {
     setIsProcessing(true);
     try {
       if (isRename) {
-        await fetch(`${BASE_URL}/api/customers/${activeModal.id}`, {
+        await fetch(`/api/customers/${activeModal.id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name: val })
         });
       } else if (isSetPrice) {
-        await fetch(`${BASE_URL}/api/settings`, {
+        await fetch(`/api/settings`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ default_price: Number(val) })
         });
       } else if (isConfirm) {
-        await fetch(`${BASE_URL}/api/dashboard/orders/${activeModal.id}/confirm`, {
+        await fetch(`/api/dashboard/orders/${activeModal.id}/confirm`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity: Number(qty), unit_price: Number(val) })
         });
       } else if (isManual) {
-        await fetch(`${BASE_URL}/api/dashboard/orders/manual`, {
+        await fetch(`/api/orders/manual`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ phone, name: val, quantity: Number(qty), unit_price: Number(priceInput) })
         });
       } else if (isDeleteOrder) {
-        await fetch(`${BASE_URL}/api/dashboard/orders/${activeModal.id}`, { method: 'DELETE' });
+        await fetch(`/api/orders/${activeModal.id}`, { method: 'DELETE' });
       } else if (isDeleteCustomer) {
-        await fetch(`${BASE_URL}/api/customers/${activeModal.id}`, { method: 'DELETE' });
+        await fetch(`/api/customers/${activeModal.id}`, { method: 'DELETE' });
       } else if (isBulkDelete) {
-        await fetch(`${BASE_URL}/api/customers/bulk-delete`, {
+        await fetch(`/api/customers/bulk-delete`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ids: activeModal.data.ids })

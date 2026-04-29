@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 interface DashboardContextType {
   summary: {
@@ -46,8 +45,8 @@ export function DashboardProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     try {
       const [dashRes, settingsRes] = await Promise.all([
-        fetch(`${BASE_URL}/api/dashboard?page=${p}`),
-        fetch(`${BASE_URL}/api/settings`)
+        fetch(`/api/dashboard?page=${p}`),
+        fetch(`/api/settings`)
       ]);
 
       if (!dashRes.ok || !settingsRes.ok) throw new Error('Failed to fetch');
